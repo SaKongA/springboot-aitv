@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    username: sakonga
+    password: guo051107
+    url: jdbc:mysql://localhost:3306/aitv
+    driver-class-name: com.mysql.cj.jdbc.Driver
