@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +79,7 @@ public class LibraryServiceImpl {
     }
 
     public List<VlChild> getVlChildByLibraryId(Long libraryId) {
+        System.out.println(libraryId);
         return libraryDao.getVlChildByLibraryId(libraryId);
     }
 
@@ -87,7 +90,7 @@ public class LibraryServiceImpl {
         String newFilename = UUID.randomUUID() + fileExtension;
 
         // 保存文件
-        String filePath = "/home/sakonga/sql/voice/" + newFilename;
+        String filePath = "C:/Users/SaKongA/sql/voice/" + newFilename;
         File dest = new File(filePath);
         voiceFile.transferTo(dest);
 
@@ -120,5 +123,20 @@ public class LibraryServiceImpl {
 
     public void deleteLibraryEntry(Long Id) {
         libraryDao.deleteLibraryEntry(Id);
+    }
+
+    public boolean delVoice(Long id, Long libraryId) {
+        try {
+            String fileName = libraryDao.findVoiceByLibraryIdAndId(id, libraryId);
+            libraryDao.deleteVoice(id, libraryId);
+            if (fileName != null && !fileName.isEmpty()) {
+                String filePath = "C:/Users/SaKongA/sql/voice/" + fileName;
+                Files.deleteIfExists(Paths.get(filePath));
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

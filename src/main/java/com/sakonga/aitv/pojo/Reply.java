@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "Reply")
+@TableName(value = "reply")
 public class Reply {
 
     @TableId(value = "id", type = IdType.AUTO)

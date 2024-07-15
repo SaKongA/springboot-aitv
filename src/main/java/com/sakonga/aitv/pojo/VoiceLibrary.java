@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "voiceLibrary")
+@TableName(value = "voicelibrary")
 public class VoiceLibrary {
 
     @TableId(value = "id", type = IdType.AUTO)

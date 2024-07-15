@@ -1,6 +1,5 @@
 package com.sakonga.aitv.controller;
 
-import com.sakonga.aitv.pojo.Reply;
 import com.sakonga.aitv.pojo.VlChild;
 import com.sakonga.aitv.pojo.VoiceLibrary;
 import com.sakonga.aitv.service.LibraryServiceImpl;
@@ -9,6 +8,8 @@ import com.sakonga.aitv.utils.ReplyResult;
 import com.sakonga.aitv.utils.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,6 +58,7 @@ public class LibraryController {
             }
         }
     }
+
     @PostMapping("/api/index/delLibrary")
     private String delLibrary(@RequestBody Map<String, String> request, HttpServletRequest httpServletRequest) {
         String token = httpServletRequest.getHeader("token");
@@ -90,5 +92,13 @@ public class LibraryController {
         } catch (IOException e) {
             return LibraryResult.addFailureResult("上传失败");
         }
+    }
+
+    @PostMapping("/api/index/delVoice")
+    private String delReply(@RequestBody Map<String, String> request) {
+        Long libraryId = Long.valueOf(request.get("library_id"));
+        Long id = Long.valueOf(request.get("id"));
+        libraryServiceImpl.delVoice(id, libraryId);
+        return LibraryResult.delSuccessResult(null);
     }
 }

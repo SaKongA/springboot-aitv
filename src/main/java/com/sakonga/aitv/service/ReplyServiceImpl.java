@@ -147,13 +147,13 @@ public class ReplyServiceImpl {
     private String moveFileAndRename(String voiceUrl) {
         int lastSlashIndex = voiceUrl.lastIndexOf('/');
         String fileName = voiceUrl.substring(lastSlashIndex + 1);
-        String newFilePath = "/home/sakonga/sql/cache/" + fileName;
-        String targetFilePath = "/home/sakonga/sql/replyvoice" + fileName;
+        String newFilePath = "C:/Users/SaKongA/sql/cache/" + fileName;
+        String targetFilePath = "C:/Users/SaKongA/sql/replyvoice" + fileName;
         try {
             Path sourcePath = Paths.get(newFilePath);
             Path targetPath = Paths.get(targetFilePath);
             Files.move(sourcePath, targetPath);
-            String newFileName = "/home/sakonga/sql/replyvoice/" + UUID.randomUUID().toString() + fileName.substring(fileName.lastIndexOf('.'));
+            String newFileName = "C:/Users/SaKongA/sql/replyvoice/" + UUID.randomUUID().toString() + fileName.substring(fileName.lastIndexOf('.'));
             Files.move(targetPath, Paths.get(newFileName));
             return newFileName;
         } catch (IOException e) {
@@ -169,7 +169,7 @@ public class ReplyServiceImpl {
         String newFilename = UUID.randomUUID() + fileExtension;
 
         // 保存文件
-        String filePath = "/home/sakonga/sql/replyvoice/" + newFilename;
+        String filePath = "C:/Users/SaKongA/sql/replyvoice/" + newFilename;
         File dest = new File(filePath);
         voiceFile.transferTo(dest);
 
@@ -188,7 +188,7 @@ public class ReplyServiceImpl {
             String fileName = replyDao.getFileNameByIdAndReplyId(id, replyId);
             replyDao.deleteReplySon(id, replyId);
             if (fileName != null && !fileName.isEmpty()) {
-                String filePath = "/home/sakonga/sql/replyvoice/" + fileName;
+                String filePath = "C:/Users/SaKongA/sql/replyvoice/" + fileName;
                 Files.deleteIfExists(Paths.get(filePath));
             }
             return true;

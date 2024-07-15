@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "ReplyChild")
+@TableName(value = "replychild")
 public class ReplyChild {
 
     @TableId(value = "id", type = IdType.AUTO)

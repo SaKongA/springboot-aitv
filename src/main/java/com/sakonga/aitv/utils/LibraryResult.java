@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class LibraryResult {
-    public static final String urlPrefix = "http://localhost:8080/download/voice/";
+    public static final String urlPrefix = "http://192.168.52.188:8080/download/voice/";
 
     public static String getLibrarySuccess(List<VoiceLibrary> libraries) {
         Map<String, Object> map = new HashMap<>();
@@ -101,4 +101,14 @@ public class LibraryResult {
         result.put("data", null);
         return JSON.toJSONString(result);
     }
+
+    public static String delSuccessResult(Object data) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", 1);
+        result.put("msg", "删除成功");
+        result.put("time", System.currentTimeMillis() / 1000);
+        result.put("data", data);
+        return JSON.toJSONString(result);
+    }
+
 }

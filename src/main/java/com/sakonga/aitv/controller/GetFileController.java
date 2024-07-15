@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 public class GetFileController {
 
     // 定义文件存储路径
-    private static final String FILE_DIRECTORY = "/home/sakonga/sql/voice";
+    private static final String FILE_DIRECTORY = "C:/Users/SaKongA/sql/voice";
 
     @GetMapping("/download/voice/{filename}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String filename) throws IOException {

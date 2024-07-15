@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Result {
+    public Result(String number, String 删除成功, Object o) {
+    }
+
     public static String okGetString() {
         Map<String, Object> map = new HashMap<>();
         map.put("code", 200);

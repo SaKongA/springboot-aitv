@@ -39,19 +39,6 @@ public class RetoController {
         return responseEntity;
     }
 
-    @PostMapping("/api/live/getMessage")
-    public ResponseEntity<String> getMessage(
-            @RequestHeader HttpHeaders headers,
-            @RequestBody String body) {
-        String targetUrl = "http://ybzk.yxbnet.cn/api/live/getLiveInfonew"; // 目标URL
-        HttpEntity<String> requestEntity = new HttpEntity<>(body, headers);
-        ResponseEntity<String> responseEntity = restTemplate.exchange(
-                targetUrl,
-                HttpMethod.POST,
-                requestEntity,
-                String.class);
-        return responseEntity;
-    }
 
     @PostMapping("/api/Operation/savewav_new")
     public ResponseEntity<String> savewav_new(
@@ -96,7 +83,7 @@ public class RetoController {
         try {
             URI uri = new URI(fileUrl);
             String fileName = Paths.get(uri.getPath()).getFileName().toString();
-            Path targetPath = Paths.get("/home/sakonga/sql/cache/", fileName);
+            Path targetPath = Paths.get("C:/Users/SaKongA/sql/cache/", fileName);
             Files.copy(uri.toURL().openStream(), targetPath);
             System.out.println("File downloaded to: " + targetPath);
         } catch (URISyntaxException | IOException e) {

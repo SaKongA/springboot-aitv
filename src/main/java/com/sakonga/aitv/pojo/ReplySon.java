@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "ReplyChild")
+@TableName(value = "replychild")
 public class ReplySon {
 
     @TableId(value = "id", type = IdType.AUTO)

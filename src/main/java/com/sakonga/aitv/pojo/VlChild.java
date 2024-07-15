@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "vlChild")
+@TableName(value = "vlchild")
 public class VlChild {
 
     @TableId(value = "id", type = IdType.AUTO)
