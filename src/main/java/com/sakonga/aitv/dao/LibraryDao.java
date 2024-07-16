@@ -1,5 +1,6 @@
 package com.sakonga.aitv.dao;
 
+import com.sakonga.aitv.pojo.ReplySon;
 import com.sakonga.aitv.pojo.VoiceLibrary;
 import com.sakonga.aitv.pojo.VlChild;
 import org.apache.ibatis.annotations.*;
@@ -56,4 +57,8 @@ public interface LibraryDao {
 
     @Delete("DELETE FROM vlchild WHERE id = #{id} AND library_id = #{libraryId}")
     void deleteVoice(@Param("id") Long id, @Param("libraryId") Long libraryId);
+
+    @Insert("INSERT INTO vlchild (library_id, file_name, name) " +
+            "VALUES (#{libraryId}, #{fileName}, #{name})")
+    void addVoice_more(VlChild vlChild);
 }

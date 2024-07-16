@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class LibraryServiceImpl {
         for (VoiceLibrary voiceLibrary : voiceLibraries) {
             List<VlChild> childList = vlChildMap.getOrDefault(voiceLibrary.getId(), new ArrayList<>());
             for (VlChild childs : childList) {
-                String voiceUrlPrefix = "http://yourdomain.com/files/"; // 替换为你的 URL 前缀
+                String voiceUrlPrefix = "http://192.168.170.188:8080/download/voice/"; // 替换为你的 URL 前缀
                 childs.setVoiceUrl(voiceUrlPrefix + childs.getFileName());
             }
             voiceLibrary.setChild_list(childList);
@@ -79,7 +80,6 @@ public class LibraryServiceImpl {
     }
 
     public List<VlChild> getVlChildByLibraryId(Long libraryId) {
-        System.out.println(libraryId);
         return libraryDao.getVlChildByLibraryId(libraryId);
     }
 
@@ -137,6 +137,36 @@ public class LibraryServiceImpl {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public String addVoice_more(Long libraryId, String name, String voiceUrl) {
+        VlChild vlChild = new VlChild();
+        vlChild.setLibraryId(libraryId);
+        vlChild.setName(name);
+        String newFileName = moveFileAndRename(voiceUrl);
+        String fileNameOnly = newFileName != null ? new File(newFileName).getName() : null;
+        vlChild.setFileName(fileNameOnly);
+        libraryDao.addVoice_more(vlChild);
+
+        return "Success";
+    }
+
+    private String moveFileAndRename(String voiceUrl) {
+        int lastSlashIndex = voiceUrl.lastIndexOf('/');
+        String fileName = voiceUrl.substring(lastSlashIndex + 1);
+        String newFilePath = "C:/Users/SaKongA/sql/cache/" + fileName;
+        String targetFilePath = "C:/Users/SaKongA/sql/voice" + fileName;
+        try {
+            Path sourcePath = Paths.get(newFilePath);
+            Path targetPath = Paths.get(targetFilePath);
+            Files.move(sourcePath, targetPath);
+            String newFileName = "C:/Users/SaKongA/sql/voice/" + UUID.randomUUID().toString() + fileName.substring(fileName.lastIndexOf('.'));
+            Files.move(targetPath, Paths.get(newFileName));
+            return newFileName;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

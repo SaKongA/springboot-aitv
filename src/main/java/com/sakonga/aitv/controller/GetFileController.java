@@ -17,17 +17,36 @@ import java.nio.file.Paths;
 @RestController
 public class GetFileController {
 
-    // 定义文件存储路径
-    private static final String FILE_DIRECTORY = "C:/Users/SaKongA/sql/voice";
-
     @GetMapping("/download/voice/{filename}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String filename) throws IOException {
-        Path filePath = Paths.get(FILE_DIRECTORY, filename);
+    public ResponseEntity<Resource> downloadVoice(@PathVariable String filename) throws IOException {
+        String VOICE_DIRECTORY = "C:/Users/SaKongA/sql/voice";
+        Path filePath = Paths.get(VOICE_DIRECTORY, filename);
         byte[] data = Files.readAllBytes(filePath);
         ByteArrayResource resource = new ByteArrayResource(data);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(data.length)
+                .body(resource);
+    }
+
+    @GetMapping("//uploads/{datepath}/{filename}")
+    public ResponseEntity<Resource> downloadUploads(
+            @PathVariable String datepath,
+            @PathVariable String filename) throws IOException {
+
+        String UPLOADS_DIRECTORY = "C:/Users/SaKongA/uploads";
+        Path filePath = Paths.get(UPLOADS_DIRECTORY, datepath, filename);
+
+        byte[] data = Files.readAllBytes(filePath);
+        ByteArrayResource resource = new ByteArrayResource(data);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
         return ResponseEntity.ok()
                 .headers(headers)
                 .contentLength(data.length)

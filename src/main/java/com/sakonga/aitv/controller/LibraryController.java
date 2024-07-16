@@ -101,4 +101,13 @@ public class LibraryController {
         libraryServiceImpl.delVoice(id, libraryId);
         return LibraryResult.delSuccessResult(null);
     }
+
+    @PostMapping("/api/Voice/addVoice_more")
+    private String addVoice_more(@RequestBody Map<String, String> request, HttpServletRequest httpServletRequest) {
+        Long libraryId = Long.valueOf(request.get("library_id"));
+        String name = request.get("name");
+        String voiceUrl = request.get("voice_url");
+        String result = libraryServiceImpl.addVoice_more(libraryId, name, voiceUrl);
+        return ReplyResult.editReplySuccess();
+    }
 }

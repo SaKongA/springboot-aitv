@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class LibraryResult {
-    public static final String urlPrefix = "http://192.168.52.188:8080/download/voice/";
+    public static final String urlPrefix = "http://192.168.66.212:8080/download/voice/";
 
     public static String getLibrarySuccess(List<VoiceLibrary> libraries) {
         Map<String, Object> map = new HashMap<>();
