@@ -1,18 +1,23 @@
 package com.sakonga.aitv.controller;
 
+import com.sakonga.aitv.pojo.ReplyChild;
+import com.sakonga.aitv.pojo.ReplySon;
 import com.sakonga.aitv.pojo.VlChild;
 import com.sakonga.aitv.service.LibraryServiceImpl;
-import com.sakonga.aitv.utils.LibraryResult;
+import com.sakonga.aitv.service.LiveServiceImpl;
 import com.sakonga.aitv.utils.LiveResult;
+import com.sakonga.aitv.utils.ReplyResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -23,13 +28,21 @@ public class LiveController {
     private LibraryServiceImpl libraryServiceImpl;
 
     @Autowired
+    private LiveServiceImpl liveServiceImpl;
+
+    @Autowired
     private RestTemplate restTemplate;
 
     @PostMapping("/api/live/addLive")
     public ResponseEntity<String> addLive(@RequestBody Map<String, Object> request) {
+        // 修改请求体中的 library_id 和 replytype_id
+        request.put("library_id", 6048);
+        request.put("replytype_id", 4834);
+
         String targetUrl = "http://ybzk.yxbnet.cn/api/live/addLive";
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request);
         ResponseEntity<String> response = restTemplate.exchange(targetUrl, HttpMethod.POST, entity, String.class);
+
         return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
     }
 
@@ -39,15 +52,29 @@ public class LiveController {
     }
 
     @PostMapping("/api/Common/getConfig")
-    public String getConfig() {
-        return LiveResult.getConfig();
+    public String getConfig(@RequestBody Map<String, Object> request) {
+        String name = (String) request.get("name");
+        if ("voice_ip".equals(name)) {
+            return LiveResult.getVoiceIpConfig();
+        } else if ("websocket".equals(name)) {
+            return LiveResult.getWebSocketConfig();
+        } else {
+            return LiveResult.getConfig();
+        }
     }
 
     @PostMapping("/api/news/getNewByLibraryVoice")
     private String getNewByLibraryVoice(@RequestBody Map<String, String> request) {
         Long libraryId = Long.valueOf(request.get("id"));
         List<VlChild> vlChildList = libraryServiceImpl.getVlChildByLibraryId(libraryId);
-        return LibraryResult.getSuccessResult(vlChildList);
+        return LiveResult.getSuccessLiveResult(vlChildList);
+    }
+
+    @PostMapping("/api/news/getNewReplayVoiceByTypeId")
+    private String getNewByReplyVoice(@RequestBody Map<String, String> request) {
+        Long typeId = Long.valueOf(request.get("id"));
+        List<ReplyChild> childs = liveServiceImpl.getReplyChildByTypeId(typeId);
+        return ReplyResult.getChildSuccess(childs);
     }
 
     @PostMapping("/api/live/getMessage")
@@ -56,5 +83,20 @@ public class LiveController {
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request);
         ResponseEntity<String> response = restTemplate.exchange(targetUrl, HttpMethod.POST, entity, String.class);
         return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+    }
+
+    @GetMapping("//download/voice/{filename}")
+    public ResponseEntity<Resource> downloadVoice(@PathVariable String filename) throws IOException {
+        String VOICE_DIRECTORY = "C:/Users/SaKongA/sql/voice";
+        Path filePath = Paths.get(VOICE_DIRECTORY, filename);
+        byte[] data = Files.readAllBytes(filePath);
+        ByteArrayResource resource = new ByteArrayResource(data);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(data.length)
+                .body(resource);
     }
 }

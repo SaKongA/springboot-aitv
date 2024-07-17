@@ -47,7 +47,7 @@ public class LibraryServiceImpl {
         for (VoiceLibrary voiceLibrary : voiceLibraries) {
             List<VlChild> childList = vlChildMap.getOrDefault(voiceLibrary.getId(), new ArrayList<>());
             for (VlChild childs : childList) {
-                String voiceUrlPrefix = "http://192.168.170.188:8080/download/voice/"; // 替换为你的 URL 前缀
+                String voiceUrlPrefix = "/download/voice/"; // 替换为你的 URL 前缀
                 childs.setVoiceUrl(voiceUrlPrefix + childs.getFileName());
             }
             voiceLibrary.setChild_list(childList);

@@ -3,6 +3,7 @@ package com.sakonga.aitv.service;
 import com.sakonga.aitv.dao.LibraryDao;
 import com.sakonga.aitv.dao.ReplyDao;
 import com.sakonga.aitv.pojo.*;
+import com.sakonga.aitv.utils.LibraryResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Service;
@@ -76,6 +77,7 @@ public class ReplyServiceImpl {
 
     public List<ReplyChild> getReplyChildByTypeId(Long typeId) {
         List<ReplyChild> childs = replyDao.getReplyChildByTypeId(typeId);
+        String urlPrefix = LibraryResult.urlPrefix;
 
         if (childs.isEmpty()) {
             return childs; // 返回空结果
@@ -96,8 +98,7 @@ public class ReplyServiceImpl {
         for (ReplyChild replyChild : childs) {
             List<ReplySon> sonList = replySonMap.getOrDefault(replyChild.getId(), new ArrayList<>());
             for (ReplySon son : sonList) {
-                String voiceUrlPrefix = "http://yourdomain.com/files/"; // 替换为你的 URL 前缀
-                son.setVoiceUrl(voiceUrlPrefix + son.getFileName());
+                son.setVoiceUrl(urlPrefix + son.getFileName());
             }
             replyChild.setSon(sonList);
         }

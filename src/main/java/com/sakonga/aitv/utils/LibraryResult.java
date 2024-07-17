@@ -2,16 +2,31 @@ package com.sakonga.aitv.utils;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.sakonga.aitv.pojo.ReplyChild;
 import com.sakonga.aitv.pojo.VlChild;
 import com.sakonga.aitv.pojo.VoiceLibrary;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class LibraryResult {
-    public static final String urlPrefix = "http://192.168.66.212:8080/download/voice/";
+
+    public static String urlPrefix;
+    static {
+        try {
+            InetAddress inetAddress = InetAddress.getLocalHost();
+            String ipAddress = inetAddress.getHostAddress();
+            urlPrefix = "http://" + ipAddress + ":8080/download/voice/";
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            urlPrefix = "http://localhost:8080/download/voice/";
+        }
+        System.out.println(urlPrefix);
+    }
 
     public static String getLibrarySuccess(List<VoiceLibrary> libraries) {
         Map<String, Object> map = new HashMap<>();

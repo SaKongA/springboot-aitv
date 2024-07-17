@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Map;
 
 @RestController
 public class RetoController {
@@ -89,5 +90,21 @@ public class RetoController {
         } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @PostMapping("/api/News/set_log_by_logtext")
+    public ResponseEntity<String> setLogByLogText(@RequestBody Map<String, Object> request) {
+        String targetUrl = "http://ybzk.yxbnet.cn/api/News/set_log_by_logtext";
+        HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<>(request);
+        ResponseEntity<String> response = restTemplate.exchange(targetUrl, HttpMethod.POST, httpEntity, String.class);
+        return response;
+    }
+
+    @PostMapping("/api/live/delRoom")
+    public ResponseEntity<String> delRoom(@RequestBody Map<String, Object> request) {
+        String targetUrl = "http://ybzk.yxbnet.cn/api/live/delRoom";
+        HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<>(request);
+        ResponseEntity<String> response = restTemplate.exchange(targetUrl, HttpMethod.POST, httpEntity, String.class);
+        return response;
     }
 }
