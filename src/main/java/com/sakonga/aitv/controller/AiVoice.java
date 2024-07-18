@@ -59,7 +59,8 @@ public class AiVoice {
 
     @GetMapping("//wavvoice/1/{var}/{filename}")
     public ResponseEntity<Resource> downloadUploads(@PathVariable String filename) throws IOException {
-        String UPLOADS_DIRECTORY = "C:/Users/SaKongA/sql/cache";
+        String userName = System.getProperty("user.name");
+        String UPLOADS_DIRECTORY = "C:/Users/" + userName + "/server/sql/cache";
         Path filePath = Paths.get(UPLOADS_DIRECTORY, filename);
         byte[] data = Files.readAllBytes(filePath);
         ByteArrayResource resource = new ByteArrayResource(data);

@@ -148,13 +148,14 @@ public class ReplyServiceImpl {
     private String moveFileAndRename(String voiceUrl) {
         int lastSlashIndex = voiceUrl.lastIndexOf('/');
         String fileName = voiceUrl.substring(lastSlashIndex + 1);
-        String newFilePath = "C:/Users/SaKongA/sql/cache/" + fileName;
-        String targetFilePath = "C:/Users/SaKongA/sql/replyvoice" + fileName;
+        String userName = System.getProperty("user.name");
+        String newFilePath = "C:/Users/" + userName + "/server/sql/cache/" + fileName;
+        String targetFilePath = "C:/Users/" + userName + "/server/sql/replyvoice" + fileName;
         try {
             Path sourcePath = Paths.get(newFilePath);
             Path targetPath = Paths.get(targetFilePath);
             Files.move(sourcePath, targetPath);
-            String newFileName = "C:/Users/SaKongA/sql/replyvoice/" + UUID.randomUUID().toString() + fileName.substring(fileName.lastIndexOf('.'));
+            String newFileName = "C:/Users/" + userName + "/server/sql/replyvoice/" + UUID.randomUUID().toString() + fileName.substring(fileName.lastIndexOf('.'));
             Files.move(targetPath, Paths.get(newFileName));
             return newFileName;
         } catch (IOException e) {
@@ -170,7 +171,8 @@ public class ReplyServiceImpl {
         String newFilename = UUID.randomUUID() + fileExtension;
 
         // 保存文件
-        String filePath = "C:/Users/SaKongA/sql/replyvoice/" + newFilename;
+        String userName = System.getProperty("user.name");
+        String filePath = "C:/Users/" + userName + "/server/sql/replyvoice/" + newFilename;
         File dest = new File(filePath);
         voiceFile.transferTo(dest);
 
@@ -189,7 +191,8 @@ public class ReplyServiceImpl {
             String fileName = replyDao.getFileNameByIdAndReplyId(id, replyId);
             replyDao.deleteReplySon(id, replyId);
             if (fileName != null && !fileName.isEmpty()) {
-                String filePath = "C:/Users/SaKongA/sql/replyvoice/" + fileName;
+                String userName = System.getProperty("user.name");
+                String filePath = "C:/Users/" + userName + "/server/sql/replyvoice/" + fileName;
                 Files.deleteIfExists(Paths.get(filePath));
             }
             return true;

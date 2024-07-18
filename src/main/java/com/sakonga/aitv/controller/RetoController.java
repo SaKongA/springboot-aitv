@@ -84,7 +84,8 @@ public class RetoController {
         try {
             URI uri = new URI(fileUrl);
             String fileName = Paths.get(uri.getPath()).getFileName().toString();
-            Path targetPath = Paths.get("C:/Users/SaKongA/sql/cache/", fileName);
+            String userName = System.getProperty("user.name");
+            Path targetPath = Paths.get("C:/Users/" + userName + "/server/sql/cache/", fileName);
             Files.copy(uri.toURL().openStream(), targetPath);
             System.out.println("File downloaded to: " + targetPath);
         } catch (URISyntaxException | IOException e) {

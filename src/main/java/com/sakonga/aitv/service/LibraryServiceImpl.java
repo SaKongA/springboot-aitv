@@ -90,7 +90,8 @@ public class LibraryServiceImpl {
         String newFilename = UUID.randomUUID() + fileExtension;
 
         // 保存文件
-        String filePath = "C:/Users/SaKongA/sql/voice/" + newFilename;
+        String userName = System.getProperty("user.name");
+        String filePath = "C:/Users/" + userName + "/server/sql/voice/" + newFilename;
         File dest = new File(filePath);
         voiceFile.transferTo(dest);
 
@@ -130,7 +131,8 @@ public class LibraryServiceImpl {
             String fileName = libraryDao.findVoiceByLibraryIdAndId(id, libraryId);
             libraryDao.deleteVoice(id, libraryId);
             if (fileName != null && !fileName.isEmpty()) {
-                String filePath = "C:/Users/SaKongA/sql/voice/" + fileName;
+                String userName = System.getProperty("user.name");
+                String filePath = "C:/Users/" + userName + "/server/sql/voice/" + fileName;
                 Files.deleteIfExists(Paths.get(filePath));
             }
             return true;
@@ -155,13 +157,14 @@ public class LibraryServiceImpl {
     private String moveFileAndRename(String voiceUrl) {
         int lastSlashIndex = voiceUrl.lastIndexOf('/');
         String fileName = voiceUrl.substring(lastSlashIndex + 1);
-        String newFilePath = "C:/Users/SaKongA/sql/cache/" + fileName;
-        String targetFilePath = "C:/Users/SaKongA/sql/voice" + fileName;
+        String userName = System.getProperty("user.name");
+        String newFilePath = "C:/Users/" + userName + "/server/sql/cache/" + fileName;
+        String targetFilePath = "C:/Users/" + userName + "/server/sql/voice" + fileName;
         try {
             Path sourcePath = Paths.get(newFilePath);
             Path targetPath = Paths.get(targetFilePath);
             Files.move(sourcePath, targetPath);
-            String newFileName = "C:/Users/SaKongA/sql/voice/" + UUID.randomUUID().toString() + fileName.substring(fileName.lastIndexOf('.'));
+            String newFileName = "C:/Users/" + userName + "/server/sql/voice/" + UUID.randomUUID().toString() + fileName.substring(fileName.lastIndexOf('.'));
             Files.move(targetPath, Paths.get(newFileName));
             return newFileName;
         } catch (IOException e) {

@@ -19,7 +19,8 @@ public class GetFileController {
 
     @GetMapping("/download/voice/{filename}")
     public ResponseEntity<Resource> downloadVoice(@PathVariable String filename) throws IOException {
-        String VOICE_DIRECTORY = "C:/Users/SaKongA/sql/voice";
+        String userName = System.getProperty("user.name");
+        String VOICE_DIRECTORY = "C:/Users/" + userName + "/server/sql/voice";
         Path filePath = Paths.get(VOICE_DIRECTORY, filename);
         byte[] data = Files.readAllBytes(filePath);
         ByteArrayResource resource = new ByteArrayResource(data);
@@ -34,7 +35,8 @@ public class GetFileController {
 
     @GetMapping("/download/replyvoice/{filename}")
     public ResponseEntity<Resource> downloadReplyVoice(@PathVariable String filename) throws IOException {
-        String VOICE_DIRECTORY = "C:/Users/SaKongA/sql/replyvoice";
+        String userName = System.getProperty("user.name");
+        String VOICE_DIRECTORY = "C:/Users/" + userName + "/server/sql/replyvoice";
         Path filePath = Paths.get(VOICE_DIRECTORY, filename);
         byte[] data = Files.readAllBytes(filePath);
         ByteArrayResource resource = new ByteArrayResource(data);
@@ -52,7 +54,8 @@ public class GetFileController {
             @PathVariable String datepath,
             @PathVariable String filename) throws IOException {
 
-        String UPLOADS_DIRECTORY = "C:/Users/SaKongA/uploads";
+        String userName = System.getProperty("user.name");
+        String UPLOADS_DIRECTORY = "C:/Users/" + userName + "/server/uploads";
         Path filePath = Paths.get(UPLOADS_DIRECTORY, datepath, filename);
 
         byte[] data = Files.readAllBytes(filePath);
@@ -70,7 +73,8 @@ public class GetFileController {
 
     @GetMapping("/download/app/{filename}")
     public ResponseEntity<Resource> downloadAppRes(@PathVariable String filename) throws IOException {
-        String FILE_DIRECTORY = "C:/Users/SaKongA/app_res";
+        String userName = System.getProperty("user.name");
+        String FILE_DIRECTORY = "C:/Users/" + userName + "/server/app_res";
         Path filePath = Paths.get(FILE_DIRECTORY, filename);
         byte[] data = Files.readAllBytes(filePath);
         ByteArrayResource resource = new ByteArrayResource(data);

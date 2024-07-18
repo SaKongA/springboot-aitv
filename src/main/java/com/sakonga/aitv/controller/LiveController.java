@@ -92,7 +92,8 @@ public class LiveController {
 
     @GetMapping("//download/voice/{filename}")
     public ResponseEntity<Resource> downloadVoice(@PathVariable String filename) throws IOException {
-        String VOICE_DIRECTORY = "C:/Users/SaKongA/sql/voice";
+        String userName = System.getProperty("user.name");
+        String VOICE_DIRECTORY = "C:/Users/" + userName + "/server/sql/voice";
         Path filePath = Paths.get(VOICE_DIRECTORY, filename);
         byte[] data = Files.readAllBytes(filePath);
         ByteArrayResource resource = new ByteArrayResource(data);
