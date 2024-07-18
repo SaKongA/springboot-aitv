@@ -5,6 +5,7 @@ import com.sakonga.aitv.pojo.ReplySon;
 import com.sakonga.aitv.pojo.VlChild;
 import com.sakonga.aitv.service.LibraryServiceImpl;
 import com.sakonga.aitv.service.LiveServiceImpl;
+import com.sakonga.aitv.utils.AppResult;
 import com.sakonga.aitv.utils.LiveResult;
 import com.sakonga.aitv.utils.ReplyResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,10 @@ public class LiveController {
             return LiveResult.getVoiceIpConfig();
         } else if ("websocket".equals(name)) {
             return LiveResult.getWebSocketConfig();
+        } else if ("favicon".equals(name)) {
+            return AppResult.getFavicon();
+        } else if ("avatar_ybzk".equals(name)) {
+            return AppResult.getAvatar();
         } else {
             return LiveResult.getConfig();
         }

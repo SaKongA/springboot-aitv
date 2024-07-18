@@ -67,4 +67,19 @@ public class GetFileController {
                 .contentLength(data.length)
                 .body(resource);
     }
+
+    @GetMapping("/download/app/{filename}")
+    public ResponseEntity<Resource> downloadAppRes(@PathVariable String filename) throws IOException {
+        String FILE_DIRECTORY = "C:/Users/SaKongA/app_res";
+        Path filePath = Paths.get(FILE_DIRECTORY, filename);
+        byte[] data = Files.readAllBytes(filePath);
+        ByteArrayResource resource = new ByteArrayResource(data);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(data.length)
+                .body(resource);
+    }
 }
