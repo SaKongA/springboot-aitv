@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,6 +39,9 @@ public class UserPojo {
 
     @TableField(value = "createtime")
     private Long createtime;
+
+    @TableField(value = "activedate") // 添加此字段
+    private Long activedate;
 
     @Data
     @NoArgsConstructor

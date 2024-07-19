@@ -82,4 +82,33 @@ public class UserResult {
         return JSONObject.toJSONString(map);
     }
 
+    public static String checkAccount(int code) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", code);
+        map.put("msg", "账户未激活哦,请在个人界面输入激活码~");
+        map.put("time", System.currentTimeMillis() / 1000L);
+        map.put("data", "");
+
+        return JSONObject.toJSONString(map);
+    }
+
+    public static String applyCdk() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", 1);
+        map.put("msg", "CDK 使用成功！");
+        map.put("time", System.currentTimeMillis() / 1000L);
+        map.put("data", "");
+
+        return JSONObject.toJSONString(map);
+    }
+
+    public static String applyCdkFaild() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", 0);
+        map.put("msg", "CDK 不正确或已经使用！");
+        map.put("time", System.currentTimeMillis() / 1000L);
+        map.put("data", "");
+
+        return JSONObject.toJSONString(map);
+    }
 }

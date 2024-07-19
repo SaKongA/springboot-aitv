@@ -52,22 +52,6 @@ public class LiveController {
         return LiveResult.getTanInfo();
     }
 
-    @PostMapping("/api/Common/getConfig")
-    public String getConfig(@RequestBody Map<String, Object> request) {
-        String name = (String) request.get("name");
-        if ("voice_ip".equals(name)) {
-            return LiveResult.getVoiceIpConfig();
-        } else if ("websocket".equals(name)) {
-            return LiveResult.getWebSocketConfig();
-        } else if ("favicon".equals(name)) {
-            return AppResult.getFavicon();
-        } else if ("avatar_ybzk".equals(name)) {
-            return AppResult.getAvatar();
-        } else {
-            return LiveResult.getConfig();
-        }
-    }
-
     @PostMapping("/api/news/getNewByLibraryVoice")
     private String getNewByLibraryVoice(@RequestBody Map<String, String> request) {
         Long libraryId = Long.valueOf(request.get("id"));

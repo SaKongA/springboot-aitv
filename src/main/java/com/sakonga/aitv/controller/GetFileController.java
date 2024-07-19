@@ -49,6 +49,22 @@ public class GetFileController {
                 .body(resource);
     }
 
+    @GetMapping("//download/replyvoice/{filename}")
+    public ResponseEntity<Resource> downloadReplyVoice2(@PathVariable String filename) throws IOException {
+        String userName = System.getProperty("user.name");
+        String VOICE_DIRECTORY = "C:/Users/" + userName + "/server/sql/replyvoice";
+        Path filePath = Paths.get(VOICE_DIRECTORY, filename);
+        byte[] data = Files.readAllBytes(filePath);
+        ByteArrayResource resource = new ByteArrayResource(data);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(data.length)
+                .body(resource);
+    }
+
     @GetMapping("//uploads/{datepath}/{filename}")
     public ResponseEntity<Resource> downloadUploads(
             @PathVariable String datepath,
@@ -71,7 +87,7 @@ public class GetFileController {
                 .body(resource);
     }
 
-    @GetMapping("/download/app/{filename}")
+    @GetMapping("//download/app/{filename}")
     public ResponseEntity<Resource> downloadAppRes(@PathVariable String filename) throws IOException {
         String userName = System.getProperty("user.name");
         String FILE_DIRECTORY = "C:/Users/" + userName + "/server/app_res";
